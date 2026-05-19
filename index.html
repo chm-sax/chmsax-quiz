@@ -44,7 +44,7 @@
       display: flex; align-items: center; justify-content: center;
       margin: 0 auto 1.4rem;
     }
-    .logo-wrap img { width: 150px; height: 150px; object-fit: contain; filter: brightness(0) invert(1); }
+    .logo-wrap img { width: 150px; height: 150px; object-fit: contain; filter: invert(1); mix-blend-mode: screen; }
     .logo-wrap .logo-text {
       font-size: 2.5rem; color: var(--gold);
       letter-spacing: -1px; line-height: 1;
@@ -554,22 +554,22 @@
       <div class="q-num">Question 1</div>
       <div class="q-text">Avez-vous déjà un bec avec une ouverture définie&nbsp;?</div>
       <div class="options">
-        <div class="opt" onclick="pick(this,'q8',null,0,null,0,'mpc_no')">
+        <div class="opt" onclick="pick(this,'q8',null,0,null,0,'mpc_no'); handleQ8('mpc_no')">
           <div class="opt-letter">A</div>
           <div class="opt-text">Non — j'utilise le bec fourni avec mon saxophone</div>
         </div>
-        <div class="opt" onclick="pick(this,'q8',null,0,null,0,'mpc_unknown')">
+        <div class="opt" onclick="pick(this,'q8',null,0,null,0,'mpc_unknown'); handleQ8('mpc_unknown')">
           <div class="opt-letter">B</div>
           <div class="opt-text">Oui, mais je ne connais pas son ouverture exacte</div>
         </div>
-        <div class="opt" onclick="pick(this,'q8',null,0,null,0,'mpc_yes')">
+        <div class="opt" onclick="pick(this,'q8',null,0,null,0,'mpc_yes'); handleQ8('mpc_yes')">
           <div class="opt-letter">C</div>
           <div class="opt-text">Oui, je connais son ouverture</div>
         </div>
       </div>
     </div>
 
-    <!-- Q9 -->
+    <div id="q9-block">    <!-- Q9 -->
     <div class="question">
       <div class="q-num">Question 2</div>
       <div class="q-text">Si vous connaissez votre ouverture actuelle, laquelle est-ce&nbsp;?</div>
@@ -593,7 +593,8 @@
       </div>
     </div>
 
-    <!-- Q10 -->
+    </div>
+    <div id="q10-block">    <!-- Q10 -->
     <div class="question">
       <div class="q-num">Question 3</div>
       <div class="q-text">Êtes-vous satisfait(e) de votre ouverture actuelle&nbsp;?</div>
@@ -617,6 +618,7 @@
       </div>
     </div>
 
+    </div>
     <p class="warn" id="w3">Veuillez répondre à toutes les questions pour continuer.</p>
     <div class="nav">
       <button class="btn btn-back" onclick="show(2)">← Retour</button>
@@ -784,6 +786,19 @@ const DESC = {
   'Power Flow': "Conçu pour les scènes amplifiées et les musiciens qui veulent s'imposer, le Power Flow délivre un timbre puissant, direct et incisif. Idéal pour le rock, le funk, le latin et toutes les musiques qui exigent une vraie présence sonore."
 };
 
+function handleQ8(tag) {
+  const hide = (tag === 'mpc_no' || tag === 'mpc_unknown');
+  document.getElementById('q9-block').style.display = hide ? 'none' : 'block';
+  document.getElementById('q10-block').style.display = hide ? 'none' : 'block';
+  if (hide) {
+    ans['q9']  = { s1: null, p1: 0, s2: null, p2: 0, tag: 'cur_6' };
+    ans['q10'] = { s1: null, p1: 0, s2: null, p2: 0, tag: 'feel_unknown' };
+    document.querySelectorAll('#q9 .opt, #q10 .opt').forEach(o => o.classList.remove('sel'));
+  } else {
+    delete ans['q9'];
+    delete ans['q10'];
+  }
+}
 // ── Compute & display result ───────────────────────────────────────────────
 function compute() {
   if (!allDone(3)) {
