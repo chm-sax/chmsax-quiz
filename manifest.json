@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "CHM Sax — Trouvez votre bec idéal",
   "short_name": "CHM Sax",
   "description": "Quiz pour trouver la série et l'ouverture de bec de saxophone CHM qui vous correspond.",
@@ -10,13 +10,13 @@
   "lang": "fr",
   "icons": [
     {
-      "src": "logo.png",
+      "src": "icon-chm.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "logo.png",
+      "src": "icon-chm.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
