@@ -372,11 +372,11 @@
           <div class="opt-letter">A</div>
           <div class="opt-text">Débutant — je cherche un son facile et confortable</div>
         </div>
-        <div class="opt" onclick="pick(this,'q1','essentiel',1,'contemporary',1)">
+        <div class="opt" onclick="pick(this,'q1','essentiel',1,'Contempory',1)">
           <div class="opt-letter">B</div>
           <div class="opt-text">Intermédiaire — je joue régulièrement depuis quelques années</div>
         </div>
-        <div class="opt" onclick="pick(this,'q1','contemporary',2)">
+        <div class="opt" onclick="pick(this,'q1','Contempory',2)">
           <div class="opt-letter">C</div>
           <div class="opt-text">Avancé — je joue en groupe ou en concert régulièrement</div>
         </div>
@@ -396,7 +396,7 @@
           <div class="opt-letter">A</div>
           <div class="opt-text">Classique, musique d'ensemble ou conservatoire</div>
         </div>
-        <div class="opt" onclick="pick(this,'q2','contemporary',2)">
+        <div class="opt" onclick="pick(this,'q2','Contempory',2)">
           <div class="opt-letter">B</div>
           <div class="opt-text">Jazz, blues, soul ou bossa nova</div>
         </div>
@@ -404,7 +404,7 @@
           <div class="opt-letter">C</div>
           <div class="opt-text">Rock, funk, pop ou musique amplifiée</div>
         </div>
-        <div class="opt" onclick="pick(this,'q2','contemporary',1,'powerflow',1)">
+        <div class="opt" onclick="pick(this,'q2','Contempory',1,'powerflow',1)">
           <div class="opt-letter">D</div>
           <div class="opt-text">Je mélange les genres — jazz, fusion, latin…</div>
         </div>
@@ -420,7 +420,7 @@
           <div class="opt-letter">A</div>
           <div class="opt-text">Un son rond, homogène et doux à produire</div>
         </div>
-        <div class="opt" onclick="pick(this,'q3','contemporary',2)">
+        <div class="opt" onclick="pick(this,'q3','Contempory',2)">
           <div class="opt-letter">B</div>
           <div class="opt-text">Un son chaud, articulé avec une belle projection</div>
         </div>
@@ -440,7 +440,7 @@
           <div class="opt-letter">A</div>
           <div class="opt-text">Chez moi, en cours ou en répétition acoustique</div>
         </div>
-        <div class="opt" onclick="pick(this,'q4','contemporary',2)">
+        <div class="opt" onclick="pick(this,'q4','Contempory',2)">
           <div class="opt-letter">B</div>
           <div class="opt-text">En jazz club, petit théâtre ou salle intimiste</div>
         </div>
@@ -475,7 +475,7 @@
           <div class="opt-letter">A</div>
           <div class="opt-text">Rico ou D'Addario</div>
         </div>
-        <div class="opt" onclick="pick(this,'q5','contemporary',1,null,0,'brand_vandoren')">
+        <div class="opt" onclick="pick(this,'q5','Contempory',1,null,0,'brand_vandoren')">
           <div class="opt-letter">B</div>
           <div class="opt-text">Vandoren ou Selmer</div>
         </div>
@@ -483,7 +483,7 @@
           <div class="opt-letter">C</div>
           <div class="opt-text">Rigotti ou Marca</div>
         </div>
-        <div class="opt" onclick="pick(this,'q5','contemporary',1,null,0,'brand_legere')">
+        <div class="opt" onclick="pick(this,'q5','Contempory',1,null,0,'brand_legere')">
           <div class="opt-letter">D</div>
           <div class="opt-text">Légère (anche synthétique)</div>
         </div>
@@ -523,7 +523,7 @@
           <div class="opt-letter">A</div>
           <div class="opt-text">Détendue — je cherche le confort et la facilité de jeu</div>
         </div>
-        <div class="opt" onclick="pick(this,'q7','contemporary',1)">
+        <div class="opt" onclick="pick(this,'q7','Contempory',1)">
           <div class="opt-letter">B</div>
           <div class="opt-text">Équilibrée — je veux du contrôle et de l'expression</div>
         </div>
@@ -671,7 +671,7 @@
 
 <script>
 // ── State ──────────────────────────────────────────────────────────────────
-const score = { essentiel: 0, contemporary: 0, powerflow: 0 };
+const score = { essentiel: 0, Contempory: 0, powerflow: 0 };
 const ans   = {};
 
 const SEC_QS = { 1: ['q1','q2','q3','q4'], 2: ['q5','q6','q7'], 3: ['q8','q9','q10'] };
@@ -740,9 +740,9 @@ function restart() {
 
 // ── Series result ──────────────────────────────────────────────────────────
 function getSeries() {
-  const max = Math.max(score.essentiel, score.contemporary, score.powerflow);
+  const max = Math.max(score.essentiel, score.Contempory, score.powerflow);
   if (score.powerflow === max)    return 'Power Flow';
-  if (score.contemporary === max) return 'Contemporary';
+  if (score.Contempory === max) return 'Contempory';
   return 'Essentiel';
 }
 
@@ -755,7 +755,7 @@ function getOpening(series) {
 
   // If no mouthpiece or unknown → series-based default
   if (!hasMpc || hasMpc === 'mpc_no' || hasMpc === 'mpc_unknown') {
-    const base = { 'Essentiel': '5', 'Contemporary': '6', 'Power Flow': '6+' };
+    const base = { 'Essentiel': '5', 'Contempory': '6', 'Power Flow': '6+' };
     // adjust up if hard reed
     if (reed === 'reed_hard' && series !== 'Essentiel') {
       const up = { '5':'6', '6':'6+', '6+':'7', '7':'7' };
@@ -782,7 +782,7 @@ function getOpening(series) {
 // ── Descriptions ───────────────────────────────────────────────────────────
 const DESC = {
   'Essentiel': "La série Essentiel est conçue pour les saxophonistes qui cherchent un son homogène, une réponse douce et une grande facilité de jeu. Sa sonorité ronde et chaleureuse en fait le compagnon idéal pour le travail en cours, les répétitions acoustiques et les styles classiques ou lyriques.",
-  'Contemporary': "La série Contemporary s'adresse aux musiciens qui veulent allier chaleur et projection. Naturellement expressif et précis dans l'articulation, ce bec s'épanouit dans le jazz, la soul et les styles contemporains qui demandent nuance et présence.",
+  'Contempory': "La série Contempory s'adresse aux musiciens qui veulent allier chaleur et projection. Naturellement expressif et précis dans l'articulation, ce bec s'épanouit dans le jazz, la soul et les styles contemporains qui demandent nuance et présence.",
   'Power Flow': "Conçu pour les scènes amplifiées et les musiciens qui veulent s'imposer, le Power Flow délivre un timbre puissant, direct et incisif. Idéal pour le rock, le funk, le latin et toutes les musiques qui exigent une vraie présence sonore."
 };
 
