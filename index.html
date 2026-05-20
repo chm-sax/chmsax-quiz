@@ -558,15 +558,15 @@
       <div class="q-num">Question 1</div>
       <div class="q-text">Avez-vous déjà un bec avec une ouverture définie&nbsp;?</div>
       <div class="options">
-        <div class="opt" onclick="pick(this,'q8',null,0,null,0,'mpc_no'); handleQ8('mpc_no')">
+        <div class="opt" onclick="selectQ8(this,'mpc_no')">
           <div class="opt-letter">A</div>
           <div class="opt-text">Non — j'utilise le bec fourni avec mon saxophone</div>
         </div>
-        <div class="opt" onclick="pick(this,'q8',null,0,null,0,'mpc_unknown'); handleQ8('mpc_unknown')">
+        <div class="opt" onclick="selectQ8(this,'mpc_unknown')">
           <div class="opt-letter">B</div>
           <div class="opt-text">Oui, mais je ne connais pas son ouverture exacte</div>
         </div>
-        <div class="opt" onclick="pick(this,'q8',null,0,null,0,'mpc_yes'); handleQ8('mpc_yes')">
+        <div class="opt" onclick="selectQ8(this,'mpc_yes')">
           <div class="opt-letter">C</div>
           <div class="opt-text">Oui, je connais son ouverture</div>
         </div>
@@ -798,15 +798,32 @@ const DESC = {
   'Power Flow': "Conçu pour les scènes amplifiées et les musiciens qui veulent s'imposer, le Power Flow délivre un timbre puissant, direct et incisif. Idéal pour le rock, le funk, le latin et toutes les musiques qui exigent une vraie présence sonore."
 };
 
-function handleQ8(tag) {
+
+function selectQ8(el, tag) {
+  // Désélectionner les autres options Q8
+  el.closest('.options').querySelectorAll('.opt').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+  
+  // Enregistrer la réponse
+  if (ans['q8']) {
+    if (ans['q8'].s1) score[ans['q8'].s1] = Math.max(0, score[ans['q8'].s1] - ans['q8'].p1);
+  }
+  ans['q8'] = { s1: null, p1: 0, s2: null, p2: 0, tag: tag };
+
   const hide = (tag === 'mpc_no' || tag === 'mpc_unknown');
-  document.getElementById('q9-block').style.display = hide ? 'none' : 'block';
-  document.getElementById('q10-block').style.display = hide ? 'none' : 'block';
+  
+  const q9 = document.getElementById('q9-block');
+  const q10 = document.getElementById('q10-block');
+  
   if (hide) {
+    q9.style.display  = 'none';
+    q10.style.display = 'none';
     ans['q9']  = { s1: null, p1: 0, s2: null, p2: 0, tag: 'cur_6' };
     ans['q10'] = { s1: null, p1: 0, s2: null, p2: 0, tag: 'feel_unknown' };
     document.querySelectorAll('#q9 .opt, #q10 .opt').forEach(o => o.classList.remove('sel'));
   } else {
+    q9.style.display  = 'block';
+    q10.style.display = 'block';
     delete ans['q9'];
     delete ans['q10'];
   }
