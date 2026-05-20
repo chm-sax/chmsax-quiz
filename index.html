@@ -368,20 +368,24 @@
       <div class="q-num">Question 1</div>
       <div class="q-text">Quel est votre niveau de pratique&nbsp;?</div>
       <div class="options">
-        <div class="opt" onclick="pick(this,'q1','essentiel',2)">
+        <div class="opt" onclick="pick(this,'q1','conservatory',4)">
           <div class="opt-letter">A</div>
+          <div class="opt-text">Débutant total — je n'ai jamais joué du saxophone</div>
+        </div>
+                <div class="opt" onclick="pick(this,'q1','essentiel',2)">
+          <div class="opt-letter">B</div>
           <div class="opt-text">Débutant — je cherche un son facile et confortable</div>
         </div>
         <div class="opt" onclick="pick(this,'q1','essentiel',1,'Contempory',1)">
-          <div class="opt-letter">B</div>
+          <div class="opt-letter">C</div>
           <div class="opt-text">Intermédiaire — je joue régulièrement depuis quelques années</div>
         </div>
         <div class="opt" onclick="pick(this,'q1','Contempory',2)">
-          <div class="opt-letter">C</div>
+          <div class="opt-letter">D</div>
           <div class="opt-text">Avancé — je joue en groupe ou en concert régulièrement</div>
         </div>
         <div class="opt" onclick="pick(this,'q1','powerflow',2)">
-          <div class="opt-letter">D</div>
+          <div class="opt-letter">E</div>
           <div class="opt-text">Professionnel — le saxophone est mon outil de travail</div>
         </div>
       </div>
@@ -650,6 +654,11 @@
         <p id="r-desc">—</p>
       </div>
 
+            <div id="r-color-note" class="res-card" style="display:none; text-align:left">
+        <h3>3 couleurs disponibles</h3>
+        <p>Ce bec existe en 3 versions de couleurs — la page s'ouvrira sur le modèle <strong>Split bicolore</strong>, mais vous pourrez choisir :</p>
+        <p style="margin-top:.6rem">⬜ <strong>Nordique</strong> — tout blanc &nbsp;|&nbsp; 🔲 <strong>Split</strong> — bicolore &nbsp;|&nbsp; 🌈 <strong>Rainbow</strong> — tricolore</p>
+      </div>
       <a href="https://chmsax.fr/" id="r-shop" class="btn-cta" target="_blank">
         Découvrir ce bec sur chmsax.fr &rarr;
       </a>
@@ -671,7 +680,7 @@
 
 <script>
 // ── State ──────────────────────────────────────────────────────────────────
-const score = { essentiel: 0, Contempory: 0, powerflow: 0 };
+const score = { essentiel: 0, Contempory: 0, powerflow: 0, conservatory: 0 };
 const ans   = {};
 
 const SEC_QS = { 1: ['q1','q2','q3','q4'], 2: ['q5','q6','q7'], 3: ['q8','q9','q10'] };
@@ -740,14 +749,16 @@ function restart() {
 
 // ── Series result ──────────────────────────────────────────────────────────
 function getSeries() {
-  const max = Math.max(score.essentiel, score.Contempory, score.powerflow);
+  const max = Math.max(score.essentiel, score.Contempory, score.powerflow, score.conservatory);
+  if (score.conservatory === max && score.conservatory > 0) return 'Conservatory';
   if (score.powerflow === max)    return 'Power Flow';
-  if (score.Contempory === max) return 'Contempory';
+  if (score.Contempory === max)  return 'Contempory';
   return 'Essentiel';
 }
 
 // ── Opening recommendation ─────────────────────────────────────────────────
 function getOpening(series) {
+  if (series === 'Conservatory') return 'Standard';
   const reed    = ans.q6  && ans.q6.tag;
   const hasMpc  = ans.q8  && ans.q8.tag;
   const current = ans.q9  && ans.q9.tag;
@@ -781,6 +792,7 @@ function getOpening(series) {
 
 // ── Descriptions ───────────────────────────────────────────────────────────
 const DESC = {
+  'Conservatory': "La série Conservatory est spécialement conçue pour les saxophonistes débutants qui n'ont jamais joué. En une seule ouverture soigneusement calibrée, elle offre une prise en main immédiate, une réponse douce et un son homogène pour bien démarrer le saxophone dans les meilleures conditions.",
   'Essentiel': "La série Essentiel est conçue pour les saxophonistes qui cherchent un son homogène, une réponse douce et une grande facilité de jeu. Sa sonorité ronde et chaleureuse en fait le compagnon idéal pour le travail en cours, les répétitions acoustiques et les styles classiques ou lyriques.",
   'Contempory': "La série Contempory s'adresse aux musiciens qui veulent allier chaleur et projection. Naturellement expressif et précis dans l'articulation, ce bec s'épanouit dans le jazz, la soul et les styles contemporains qui demandent nuance et présence.",
   'Power Flow': "Conçu pour les scènes amplifiées et les musiciens qui veulent s'imposer, le Power Flow délivre un timbre puissant, direct et incisif. Idéal pour le rock, le funk, le latin et toutes les musiques qui exigent une vraie présence sonore."
@@ -817,7 +829,14 @@ function compute() {
   document.getElementById('r-desc').textContent    = DESC[series];
 
   // Shop link — update if you have series-specific pages
-  document.getElementById('r-shop').href = 'https://chmsax.fr/';
+  const links = {
+    'Conservatory': 'https://chmsax.fr/produit?ref=conservatory',
+    'Essentiel':    'https://chmsax.fr/produit?style=split&serie=essentiel',
+    'Contempory':   'https://chmsax.fr/produit?style=split&serie=contempory',
+    'Power Flow':   'https://chmsax.fr/produit?style=split&serie=powerflow'
+  };
+  document.getElementById('r-shop').href = links[series] || 'https://chmsax.fr/';
+  document.getElementById('r-color-note').style.display = series !== 'Conservatory' ? 'block' : 'none';
 
   // WhatsApp share
   const msg = `🎷 CHM Sax — Quiz bec de saxophone\n\nMon résultat : Série ${series}, ouverture ${opening}.\nFais le quiz toi aussi 👉 https://chmsax.fr/`;
